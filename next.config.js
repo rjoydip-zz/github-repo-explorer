@@ -1,6 +1,7 @@
 const composePlugins = require('next-compose-plugins')
 const plugins = []
 const nextConfig = {
+  env: {},
   experimental: {
     modern: true,
     polyfillsOptimization: true,

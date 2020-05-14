@@ -6,12 +6,12 @@ const FileList = ({
   fileInfo,
   onFileSelect,
 }: {
-  fileInfo: FileInfo[]
+  fileInfo: any[]
   onFileSelect?: (args: any) => void
 }) => {
   useEffect(() => {
     const isReadme = fileInfo.filter(
-      (item) => item.ext === '.md' && item.filetype === 'file'
+      (item) => item.name === 'Readme.md' && item.type === 'file'
     )
     if (isReadme.length) onFileSelect && onFileSelect(isReadme[0])
   }, [])
@@ -30,7 +30,7 @@ const FileList = ({
               role="button"
               className="table-row hover:bg-gray-100 cursor-pointer border-b border-gray-200"
               onClick={() =>
-                item.filetype === 'file' && onFileSelect && onFileSelect(item)
+                item.type === 'file' && onFileSelect && onFileSelect(item)
               }
             >
               <td className="px-2 sm:pl-3 md:pl-4 py-1 whitespace-no-wrap text-sm leading-5 text-gray-600 w-6">
@@ -39,7 +39,7 @@ const FileList = ({
                   viewBox="0 0 20 20"
                   className="w-5 h-5"
                 >
-                  {item.filetype === 'directory' ? (
+                  {item.type === 'dir' ? (
                     <FiFolder />
                   ) : (
                     <FiFileText />
@@ -47,7 +47,7 @@ const FileList = ({
                 </svg>
               </td>
               <td className="px-2 py-1 whitespace-no-wrap text-sm text-blue-500 leading-5 font-medium">
-                {item.filename}
+                {item.name}
               </td>
               <td className="px-4 py-1 whitespace-no-wrap text-sm leading-5 text-gray-500 text-right">
                 {item.size}
