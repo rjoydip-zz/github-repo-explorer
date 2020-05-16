@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react'
 import dynamic from 'next/dynamic'
-import { Layout } from '../components'
+import Layout from '../components/Layout'
 
-const FileExplorer = dynamic(() => import('../components/FileExplorer'))
+const FileExplorer = dynamic(() => import('../components/FileExplorer'), {
+  ssr: false,
+})
 
-export default ({}) => {
+const IndexPage = ({}) => {
   useEffect(() => {
     if (process.env.NODE_ENV === 'production') {
       if ('serviceWorker' in navigator) {
@@ -26,3 +28,5 @@ export default ({}) => {
     </Layout>
   )
 }
+
+export default IndexPage

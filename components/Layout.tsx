@@ -26,3 +26,4 @@ const Layout: NextPage<{}> = ({ children }) => {
   )
 }
 export { Layout }
+export default Layout
