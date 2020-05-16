@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import ReactMarkdown from 'react-markdown'
-import Skeleton from 'react-loading-skeleton'
+import ContentLoader, { List } from 'react-content-loader'
 import { FiFolder, FiFileText } from 'react-icons/fi'
 import Highlight, { defaultProps } from 'prism-react-renderer'
 import theme from 'prism-react-renderer/themes/github'
 
-const BLANK_ARRAY_LENGTH = 15
+const BLANK_ARRAY_LENGTH = 12
 
 export interface FileInfo {
   size: number | string
@@ -232,7 +232,7 @@ const FileExplorer = ({
                                 className="fill-current mt-1 px-1 w-4 h-4"
                                 viewBox="0 0 320 512"
                               >
-                                {key !== (path.split('/').length-1) ? (
+                                {key !== path.split('/').length - 1 ? (
                                   <path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z" />
                                 ) : null}
                               </svg>
@@ -262,8 +262,6 @@ const FileExplorer = ({
                                     case BLANK_ARRAY_LENGTH - 1:
                                     case BLANK_ARRAY_LENGTH - 2:
                                     case BLANK_ARRAY_LENGTH - 3:
-                                    case BLANK_ARRAY_LENGTH - 4:
-                                    case BLANK_ARRAY_LENGTH - 5:
                                       return <FiFileText />
                                     default:
                                       return <FiFolder />
@@ -272,7 +270,16 @@ const FileExplorer = ({
                               </svg>
                             </td>
                             <td>
-                              <Skeleton />
+                              <ContentLoader viewBox="0 0 380 20">
+                                <rect
+                                  x="0"
+                                  y="1"
+                                  rx="4"
+                                  ry="4"
+                                  width={((window.innerHeight * 2) / 4) + 50}
+                                  height="15"
+                                />
+                              </ContentLoader>
                             </td>
                           </tr>
                         ))
@@ -318,58 +325,7 @@ const FileExplorer = ({
                     {((fileInfo) => {
                       switch (fileInfo.ext) {
                         case 'loading':
-                          return [...Array(BLANK_ARRAY_LENGTH).keys()].map(
-                            (key) => {
-                              const height = 10
-                              const innerWidth = window.innerWidth
-                              const inner3by4 = (innerWidth * 3) / 4
-                              const inner2by4 = (innerWidth * 2) / 4
-                              const inner2by4Plus50 = (innerWidth * 2) / 4 + 50
-                              switch (key) {
-                                case BLANK_ARRAY_LENGTH - 1:
-                                case BLANK_ARRAY_LENGTH - 2:
-                                  return (
-                                    <Skeleton
-                                      height={height}
-                                      width={inner2by4}
-                                    />
-                                  )
-                                case BLANK_ARRAY_LENGTH - 3:
-                                  return (
-                                    <Skeleton
-                                      height={height}
-                                      width={inner3by4}
-                                    />
-                                  )
-                                case BLANK_ARRAY_LENGTH - 4:
-                                case BLANK_ARRAY_LENGTH - 5:
-                                  return (
-                                    <Skeleton
-                                      height={height}
-                                      width={inner2by4Plus50}
-                                    />
-                                  )
-                                case BLANK_ARRAY_LENGTH - 7:
-                                case BLANK_ARRAY_LENGTH - 8:
-                                  return <Skeleton height={height} />
-                                case BLANK_ARRAY_LENGTH - 10:
-                                case BLANK_ARRAY_LENGTH - 11:
-                                  return (
-                                    <Skeleton
-                                      height={height}
-                                      width={inner2by4}
-                                    />
-                                  )
-                                default:
-                                  return (
-                                    <Skeleton
-                                      height={height}
-                                      width={inner2by4Plus50}
-                                    />
-                                  )
-                              }
-                            }
-                          )
+                          return <List />
                         case 'md':
                           return (
                             <ReactMarkdown
