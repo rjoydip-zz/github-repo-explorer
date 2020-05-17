@@ -172,11 +172,8 @@ const FileExplorer = ({
           <div className="inline-block min-w-full shadow-sm rounded-lg border border-gray-200 overflow-hidden">
             {enableSearch ? (
               <div className="flex flex-row sm:flex-col justify-between">
-                <label htmlFor="search"></label>
                 <input
-                  id="search"
                   ref={inputRef}
-                  name="search"
                   value=""
                   type="search"
                   style={{ outline: 'none' }}
@@ -222,6 +219,7 @@ const FileExplorer = ({
                               <a
                                 href="#"
                                 role="button"
+                                rel="noopener"
                                 className="text-blue-500"
                                 onClick={() =>
                                   fetchAPI(
@@ -253,9 +251,7 @@ const FileExplorer = ({
                   <tbody className="bg-white">
                     {loadingList
                       ? [...Array(BLANK_ARRAY_LENGTH).keys()].map((key) => (
-                          <tr
-                            className="table-row hover:bg-gray-100 cursor-pointer border-b border-gray-200"
-                          >
+                          <tr className="table-row hover:bg-gray-100 cursor-pointer border-b border-gray-200">
                             <td className="px-2 sm:pl-3 md:pl-4 whitespace-no-wrap text-sm leading-5 text-gray-600 w-6">
                               <svg
                                 fill="currentColor"
@@ -348,6 +344,7 @@ const FileExplorer = ({
                                     <a
                                       href={props.href}
                                       target="_blank"
+                                      rel="noopener"
                                       className="text-blue-500 hover:text-blue-500"
                                     >
                                       {props.children}
