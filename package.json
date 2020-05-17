@@ -1,8 +1,8 @@
 {
-  "name": "github-like-file-explorer",
+  "name": "github-repo-explorer",
   "version": "1.0.0",
   "license": "ISC",
-  "title": "Github Like File explorer",
+  "title": "Github Repo explorer",
   "scripts": {
     "lint": "tsc",
     "dev": "next",

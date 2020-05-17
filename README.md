@@ -1,4 +1,4 @@
-# github-like-file-explorer
+# github-repo-explorer
 
 This is a really simple `Next.js` project.
 

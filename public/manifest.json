@@ -1,7 +1,7 @@
 {
-    "name": "Next Typescript PWA",
-    "short_name": "Next Typescript PWA",
-    "description": "Next Typescript PWA",
+    "name": "Github Repo explorer",
+    "short_name": "Github Repo explorer",
+    "description": "Github Repo explorer",
     "icons": [
         {
             "src": "\/static\/android-icon.png",

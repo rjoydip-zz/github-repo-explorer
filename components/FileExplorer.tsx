@@ -47,10 +47,6 @@ const LineNo = styled.span`
   opacity: 0.5;
 `
 
-const LineContent = styled.span`
-  display: table-cell;
-`
-
 const CodeBlock = ({
   code,
   language,
@@ -104,20 +100,21 @@ const FileExplorer = ({
   })
   const baseURL = `https://api.github.com/repos/${repoInfo.username}/${repoInfo.repo}/contents`
 
-  const clearFileDisplay = () =>
-    setFileInfo({ filename: null, content: null, ext: null })
-
   const fetchAPI = async (path: string | null = null) => {
     setLoadingList(true)
     try {
-      setContents([
-        ...(await (
-          await fetch(`${baseURL}/${path ? path.replace('root', '') : ''}`)
-        ).json()),
-      ])
+      const data = await (
+        await fetch(`${baseURL}/${path ? path.replace('root', '') : ''}`)
+      ).json()
+      if (data.message === 'Not Found') {
+        setContents([])
+      } else {
+        setContents([...data])
+      }
       setLoadingList(false)
       path && setPath(path)
     } catch (error) {
+      console.log(error)
       setContents([])
       setLoadingList(false)
       setError(error)
@@ -131,13 +128,8 @@ const FileExplorer = ({
       setFileInfo({ filename: item.name, content, ext: item.ext })
     } else {
       // clear previous selected file
-      // clearFileDisplay()
       fetchAPI(path === '' ? item.name : `${path}/${item.name}`)
     }
-  }
-
-  const onBreadcumClick = (path: string, ele: string) => {
-    fetchAPI(path.slice(0, path.indexOf(ele) + ele.length))
   }
 
   const fc: FileInfo[] = Object.values(contents).map((content: any) => ({
@@ -155,7 +147,7 @@ const FileExplorer = ({
 
   useEffect(() => {
     fetchAPI()
-  }, [baseURL])
+  }, [repoInfo])
 
   useEffect(() => {
     const fetchReadme = async (files) => {
@@ -180,7 +172,9 @@ const FileExplorer = ({
           <div className="inline-block min-w-full shadow-sm rounded-lg border border-gray-200 overflow-hidden">
             {enableSearch ? (
               <div className="flex flex-row sm:flex-col justify-between">
+                <label htmlFor="search"></label>
                 <input
+                  id="search"
                   ref={inputRef}
                   name="search"
                   value=""
@@ -192,6 +186,7 @@ const FileExplorer = ({
                 <button
                   type="submit"
                   className="px-2"
+                  aria-label="search"
                   onClick={() => {
                     const value = inputRef.current.value
                     if (value !== '' && value.indexOf('/') > -1) {
@@ -209,6 +204,10 @@ const FileExplorer = ({
             ) : null}
             {error ? (
               <div className="bg-gray-100 border-b border-gray-200 py-2 px-2 flex justify-center">
+                {JSON.stringify(ErrorEvent)}
+              </div>
+            ) : contents.length === 0 && !loadingList ? (
+              <div className="bg-gray-100 border-b border-gray-200 py-2 px-2 flex justify-center">
                 No repo found
               </div>
             ) : (
@@ -224,7 +223,14 @@ const FileExplorer = ({
                                 href="#"
                                 role="button"
                                 className="text-blue-500"
-                                onClick={() => onBreadcumClick(path, ele)}
+                                onClick={() =>
+                                  fetchAPI(
+                                    path.slice(
+                                      0,
+                                      path.indexOf(ele) + ele.length
+                                    )
+                                  )
+                                }
                               >
                                 {ele}
                               </a>
@@ -248,7 +254,6 @@ const FileExplorer = ({
                     {loadingList
                       ? [...Array(BLANK_ARRAY_LENGTH).keys()].map((key) => (
                           <tr
-                            tabIndex={key}
                             className="table-row hover:bg-gray-100 cursor-pointer border-b border-gray-200"
                           >
                             <td className="px-2 sm:pl-3 md:pl-4 whitespace-no-wrap text-sm leading-5 text-gray-600 w-6">
@@ -276,7 +281,7 @@ const FileExplorer = ({
                                   y="1"
                                   rx="4"
                                   ry="4"
-                                  width={((window.innerHeight * 2) / 4) + 50}
+                                  width={(window.innerHeight * 2) / 4 + 50}
                                   height="15"
                                 />
                               </ContentLoader>
@@ -285,7 +290,6 @@ const FileExplorer = ({
                         ))
                       : files.map((file: FileInfo, key: number) => (
                           <tr
-                            tabIndex={key}
                             role="button"
                             className="table-row hover:bg-gray-100 cursor-pointer border-b border-gray-200"
                             onClick={() => onClick(file)}
