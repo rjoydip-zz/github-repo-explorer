@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import ReactMarkdown from 'react-markdown'
 import ContentLoader, { List } from 'react-content-loader'
-import { FiFolder, FiFileText } from 'react-icons/fi'
+import { FiFolder, FiFileText, FiSearch } from 'react-icons/fi'
 import Highlight, { defaultProps } from 'prism-react-renderer'
 import theme from 'prism-react-renderer/themes/github'
 
@@ -179,19 +179,19 @@ const FileExplorer = ({
         <div className="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
           <div className="inline-block min-w-full shadow-sm rounded-lg border border-gray-200 overflow-hidden">
             {enableSearch ? (
-              <div className="">
+              <div className="flex flex-row sm:flex-col justify-between">
                 <input
                   ref={inputRef}
                   name="search"
                   value=""
                   type="search"
                   style={{ outline: 'none' }}
-                  className="outline-none py-2 px-4 text-gray-700 focus:outline-none"
+                  className="w-full outline-none py-2 px-4 text-gray-700 focus:outline-none"
                   placeholder="username/repo"
                 />
                 <button
                   type="submit"
-                  className=""
+                  className="px-2"
                   onClick={() => {
                     const value = inputRef.current.value
                     if (value !== '' && value.indexOf('/') > -1) {
@@ -203,7 +203,7 @@ const FileExplorer = ({
                     }
                   }}
                 >
-                  Search
+                  <FiSearch />
                 </button>
               </div>
             ) : null}

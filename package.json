@@ -1,8 +1,8 @@
 {
-  "name": "file-explorer-previewer",
+  "name": "github-like-file-explorer",
   "version": "1.0.0",
   "license": "ISC",
-  "title": "File explorer & Previewer",
+  "title": "Github Like File explorer",
   "scripts": {
     "lint": "tsc",
     "dev": "next",

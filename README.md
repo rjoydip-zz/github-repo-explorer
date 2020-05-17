@@ -1,4 +1,4 @@
-# next-ts-preact-pwa
+# github-like-file-explorer
 
 This is a really simple `Next.js` project.
 
